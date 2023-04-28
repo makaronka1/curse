@@ -14,6 +14,7 @@ namespace test
     public partial class Form1 : Form
     {
         int count_second = 0;
+        int x;
         
         public Form1()
         {
