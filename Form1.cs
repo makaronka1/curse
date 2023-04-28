@@ -36,6 +36,20 @@ namespace test
 
             chart1.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Seconds;
             chart1.ChartAreas[0].AxisX.Interval = 5;
+
+
+            chart2.ChartAreas[0].AxisY.Maximum = 45;
+            chart2.ChartAreas[0].AxisY.Minimum = -5;
+
+            chart2.ChartAreas[0].AxisX.LabelStyle.Format = "H:mm:ss";
+            chart2.Series[0].XValueType = ChartValueType.DateTime;
+
+            chart2.ChartAreas[0].AxisX.Maximum = DateTime.Now.AddMinutes(1).ToOADate();
+            chart2.ChartAreas[0].AxisX.Minimum = DateTime.Now.ToOADate();
+
+            chart2.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Seconds;
+            chart2.ChartAreas[0].AxisX.Interval = 5;
+
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -45,6 +59,7 @@ namespace test
             DateTime TimeNow = DateTime.Now;
 
             chart1.Series[0].Points.AddXY(TimeNow, value);
+            chart2.Series[0].Points.AddXY(TimeNow, value);
 
             count_second++;
 
@@ -61,6 +76,8 @@ namespace test
                 chart1.ChartAreas[0].AxisX.Minimum = minX.Add(period).ToOADate();
                 chart1.ChartAreas[0].AxisX.Maximum = maxX.Add(period).ToOADate();
 
+                chart2.ChartAreas[0].AxisX.Maximum = maxX.Add(period).ToOADate();
+
                 /*chart1.ChartAreas[0].AxisX.Maximum = DateTime.Now.AddMinutes(1).ToOADate();
                 chart1.ChartAreas[0].AxisX.Minimum = DateTime.Now.ToOADate();
 
@@ -69,5 +86,18 @@ namespace test
             }
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (chart1.Visible)
+            {
+                chart1.Visible = false;
+                chart2.Visible = true;
+            }
+            else
+            {
+                chart1.Visible = true;
+                chart2.Visible = false;
+            }
+        }
     }
 }
