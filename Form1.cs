@@ -16,6 +16,7 @@ namespace test
     public partial class Form1 : Form
     {
         int count_second = 0;
+        int currentId = 1;
         NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1234;");
         
         public Form1()
@@ -24,45 +25,53 @@ namespace test
             StartPosition = FormStartPosition.CenterScreen;
             conn.Open();
         }
-
+        TableLayoutPanel table = new TableLayoutPanel();
 
 
         private void Form1_Load(object sender, EventArgs e)
         {
             timer1.Enabled = true; // Включение таймера
 
-            
-            string sql = "SELECT val FROM value_table WHERE id=3" ;
-            NpgsqlCommand command = new NpgsqlCommand(sql, conn);
-            int name = (int)command.ExecuteScalar();
-            textBox1.Text = Convert.ToString(name);
             // Создание таблицы
-            TableLayoutPanel table = new TableLayoutPanel();
+            
             table.Controls.Add(button1, 2, 0); // кнопка в первой ячейке. колонки и строки
             table.SetColumnSpan(button1, 1); // занимает 2 столбца
+            table.Controls.Add(button2, 1, 0); // кнопка в первой ячейке. колонки и строки
+            table.SetColumnSpan(button2, 1); // занимает 2 столбца
 
             table.Controls.Add(chart1, 0, 0);
             table.SetRowSpan(chart1, 2);
             table.SetColumnSpan(chart1, 1);
 
+            table.Controls.Add(chart2, 0, 0);
+            table.SetRowSpan(chart2, 2);
+            table.SetColumnSpan(chart2, 1);
+
+            table.Controls.Add(chart3, 0, 0);
+            table.SetRowSpan(chart3, 2);
+            table.SetColumnSpan(chart3, 1);
+
             table.Dock = DockStyle.Fill; // занимает все место на форме
             table.ColumnCount = 3; // 3 столбца
-            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 75F));
-            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 13F));
+            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 76F));
+            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12F));
             table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12F));
             table.RowCount = 2; // 2 строки
-            table.RowStyles.Add(new RowStyle(SizeType.Percent, 10F)); // 50% высоты для каждой строки
-            table.RowStyles.Add(new RowStyle(SizeType.Percent, 90F));
+            table.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
+            table.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));// 50% высоты для каждой строки
+            table.RowStyles.Add(new RowStyle(SizeType.Percent, 80F));
 
             this.Controls.Add(table);
 
-            /*            table.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
-                        table.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));*/
 
+            button2.Dock = DockStyle.Fill;
             button1.Dock = DockStyle.Fill; // заполняет ячейку
+            chart1.Dock = DockStyle.Fill;
+            chart2.Dock = DockStyle.Fill;
+            chart3.Dock = DockStyle.Fill;
 
             // Добавление элементов на таблицу
-;
+            ;
 
             // Добавление таблицы на форму
             
@@ -78,15 +87,7 @@ namespace test
             chart1.ChartAreas[0].AxisX.Minimum = DateTime.Now.ToOADate(); // Минимальное значение по оси X
 
             chart1.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Seconds; // Интервал отображения значений
-            chart1.ChartAreas[0].AxisX.Interval = 5; // Значение интервала
-
-            /*chart1.MaximumSize = new Size(1500, 800); // Максимальный размер графика chart1*/
-            
-
-            // Привязка графика chart1 к сторонам контейнера
-            chart1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom 
-            | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-
+            chart1.ChartAreas[0].AxisX.Interval = 5; // Значение интервала          
 
             // Настройки элемента chart2
 
@@ -102,42 +103,44 @@ namespace test
             chart2.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Seconds; // Интервал отображения значений
             chart2.ChartAreas[0].AxisX.Interval = 5; // Значение интервала
 
-            /*chart2.MaximumSize = new Size(1500, 800);*/ // Максимальный размер графика chart2
-
-            // Привязка графика chart2 к сторонам контейнера
-            chart2.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom
-            | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-
-            // Настройки элемента button1
-
-            // Привязка кнопки button1 к сторонам контейнера
-            button1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom
-            | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-
-             // Максимальный размер элемента
-            button1.AutoSize = true;
-            
-            
-
-
-
-
-            // Настройки элемента numericUpDown1
-
-            numericUpDown1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-
         }
+        
         private void timer1_Tick(object sender, EventArgs e)
         {
-            int value = Convert.ToInt32(numericUpDown1.Value);
+           
+        /*int value = Convert.ToInt32(numericUpDown1.Value);
 
 
+        DateTime TimeNow = DateTime.Now;
+        string sql = "SELECT val FROM value_table WHERE id=3";
+        NpgsqlCommand command = new NpgsqlCommand(sql, conn);
+        int name = (int)command.ExecuteScalar();
+        chart1.Series[0].Points.AddXY(TimeNow, name);
+        chart2.Series[0].Points.AddXY(TimeNow, name);
+*/
+            count_second++;
             DateTime TimeNow = DateTime.Now;
 
+            
+
+            string sql = "SELECT val FROM value_table WHERE id=@id";
+            NpgsqlCommand command = new NpgsqlCommand(sql, conn);
+            command.Parameters.AddWithValue("@id", currentId); ;
+            int value = (int)command.ExecuteScalar();
+            if(currentId == 12)
+            {
+                currentId = 1;
+            }
+            // Обновляем график с новыми данными
             chart1.Series[0].Points.AddXY(TimeNow, value);
             chart2.Series[0].Points.AddXY(TimeNow, value);
+            currentId++;
 
-            count_second++;
+            textBox1.Text = Convert.ToString(value);
+
+
+
+
 
             if (count_second == 60)
             {
@@ -173,6 +176,45 @@ namespace test
             {
                 chart1.Visible = true;
                 chart2.Visible = false;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (button2.Text == "выборка")
+            {
+                chart3.Visible = true;
+                chart2.Visible = false;
+                chart1.Visible = false;
+                button1.Visible = false;
+                button2.Text = "к графикам";
+                table.Controls.Add(button2, 2, 0); 
+            }
+            else
+            {
+                button2.Text = "выборка";
+                chart3.Visible =false;
+                chart2.Visible = false;
+                chart1.Visible = true;
+                button1.Visible = true;
+                table.Controls.Add(button2, 1, 0);
+            }
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (chart1.Visible == true)
+            {
+                chart1.Series[0].Points.Clear();
+            }
+            if (chart2.Visible == true) 
+            {
+                chart2.Series[0].Points.Clear();
+            }
+            if (chart3.Visible == true) 
+            {
+                chart3.Series[0].Points.Clear();
             }
         }
     }
