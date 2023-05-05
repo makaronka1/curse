@@ -1,4 +1,5 @@
 ﻿using System;
+using Npgsql;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,45 +12,119 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace test
 {
+
     public partial class Form1 : Form
     {
         int count_second = 0;
-        int x;
+        NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1234;");
         
         public Form1()
         {
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
+            conn.Open();
         }
+
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            timer1.Enabled = true;
+            timer1.Enabled = true; // Включение таймера
 
-            chart1.ChartAreas[0].AxisY.Maximum = 45;
-            chart1.ChartAreas[0].AxisY.Minimum = -5;
+            
+            string sql = "SELECT val FROM value_table WHERE id=3" ;
+            NpgsqlCommand command = new NpgsqlCommand(sql, conn);
+            int name = (int)command.ExecuteScalar();
+            textBox1.Text = Convert.ToString(name);
+            // Создание таблицы
+            TableLayoutPanel table = new TableLayoutPanel();
+            table.Controls.Add(button1, 2, 0); // кнопка в первой ячейке. колонки и строки
+            table.SetColumnSpan(button1, 1); // занимает 2 столбца
 
-            chart1.ChartAreas[0].AxisX.LabelStyle.Format = "H:mm:ss";
+            table.Controls.Add(chart1, 0, 0);
+            table.SetRowSpan(chart1, 2);
+            table.SetColumnSpan(chart1, 1);
+
+            table.Dock = DockStyle.Fill; // занимает все место на форме
+            table.ColumnCount = 3; // 3 столбца
+            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 75F));
+            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 13F));
+            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12F));
+            table.RowCount = 2; // 2 строки
+            table.RowStyles.Add(new RowStyle(SizeType.Percent, 10F)); // 50% высоты для каждой строки
+            table.RowStyles.Add(new RowStyle(SizeType.Percent, 90F));
+
+            this.Controls.Add(table);
+
+            /*            table.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
+                        table.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));*/
+
+            button1.Dock = DockStyle.Fill; // заполняет ячейку
+
+            // Добавление элементов на таблицу
+;
+
+            // Добавление таблицы на форму
+            
+            // Настройки элемента chart1
+
+            chart1.ChartAreas[0].AxisY.Maximum = 45; // Максимальные значение по оси Y
+            chart1.ChartAreas[0].AxisY.Minimum = -5; // Минимальное значение по оси Y
+
+            chart1.ChartAreas[0].AxisX.LabelStyle.Format = "H:mm:ss"; // Формат оси X
             chart1.Series[0].XValueType = ChartValueType.DateTime;
 
-            chart1.ChartAreas[0].AxisX.Maximum = DateTime.Now.AddMinutes(1).ToOADate();
-            chart1.ChartAreas[0].AxisX.Minimum = DateTime.Now.ToOADate();
+            chart1.ChartAreas[0].AxisX.Maximum = DateTime.Now.AddMinutes(1).ToOADate(); // Максимальные значение по оси X
+            chart1.ChartAreas[0].AxisX.Minimum = DateTime.Now.ToOADate(); // Минимальное значение по оси X
 
-            chart1.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Seconds;
-            chart1.ChartAreas[0].AxisX.Interval = 5;
+            chart1.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Seconds; // Интервал отображения значений
+            chart1.ChartAreas[0].AxisX.Interval = 5; // Значение интервала
+
+            /*chart1.MaximumSize = new Size(1500, 800); // Максимальный размер графика chart1*/
+            
+
+            // Привязка графика chart1 к сторонам контейнера
+            chart1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom 
+            | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 
 
-            chart2.ChartAreas[0].AxisY.Maximum = 45;
-            chart2.ChartAreas[0].AxisY.Minimum = -5;
+            // Настройки элемента chart2
 
-            chart2.ChartAreas[0].AxisX.LabelStyle.Format = "H:mm:ss";
+            chart2.ChartAreas[0].AxisY.Maximum = 45; // Максимальные значение по оси Y
+            chart2.ChartAreas[0].AxisY.Minimum = -5; // Минимальное значение по оси Y
+
+            chart2.ChartAreas[0].AxisX.LabelStyle.Format = "H:mm:ss";  // Формат оси X
             chart2.Series[0].XValueType = ChartValueType.DateTime;
 
-            chart2.ChartAreas[0].AxisX.Maximum = DateTime.Now.AddMinutes(1).ToOADate();
-            chart2.ChartAreas[0].AxisX.Minimum = DateTime.Now.ToOADate();
+            chart2.ChartAreas[0].AxisX.Maximum = DateTime.Now.AddMinutes(1).ToOADate(); // Максимальные значение по оси X
+            chart2.ChartAreas[0].AxisX.Minimum = DateTime.Now.ToOADate(); // Минимальное значение по оси X
 
-            chart2.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Seconds;
-            chart2.ChartAreas[0].AxisX.Interval = 5;
+            chart2.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Seconds; // Интервал отображения значений
+            chart2.ChartAreas[0].AxisX.Interval = 5; // Значение интервала
+
+            /*chart2.MaximumSize = new Size(1500, 800);*/ // Максимальный размер графика chart2
+
+            // Привязка графика chart2 к сторонам контейнера
+            chart2.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom
+            | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+
+            // Настройки элемента button1
+
+            // Привязка кнопки button1 к сторонам контейнера
+            button1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom
+            | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+
+             // Максимальный размер элемента
+            button1.AutoSize = true;
+            
+            
+
+
+
+
+            // Настройки элемента numericUpDown1
+
+            numericUpDown1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
 
         }
         private void timer1_Tick(object sender, EventArgs e)
