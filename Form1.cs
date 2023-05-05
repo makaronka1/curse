@@ -38,32 +38,38 @@ namespace test
             table.SetColumnSpan(button1, 1); // занимает 2 столбца
             table.Controls.Add(button2, 1, 0); // кнопка в первой ячейке. колонки и строки
             table.SetColumnSpan(button2, 1); // занимает 2 столбца
+            table.Controls.Add(button3, 2, 1); // кнопка в первой ячейке. колонки и строки
+            table.SetColumnSpan(button3, 1);
 
             table.Controls.Add(chart1, 0, 0);
-            table.SetRowSpan(chart1, 2);
+            table.SetRowSpan(chart1, 3);
             table.SetColumnSpan(chart1, 1);
 
             table.Controls.Add(chart2, 0, 0);
-            table.SetRowSpan(chart2, 2);
+            table.SetRowSpan(chart2, 3);
             table.SetColumnSpan(chart2, 1);
 
             table.Controls.Add(chart3, 0, 0);
-            table.SetRowSpan(chart3, 2);
+            table.SetRowSpan(chart3, 3);
             table.SetColumnSpan(chart3, 1);
+
+            table.Controls.Add(textBox1, 1, 1);
+            table.SetRowSpan(textBox1, 1);
 
             table.Dock = DockStyle.Fill; // занимает все место на форме
             table.ColumnCount = 3; // 3 столбца
             table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 76F));
             table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12F));
             table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12F));
-            table.RowCount = 2; // 2 строки
+            table.RowCount = 3; // 2 строки
             table.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
             table.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));// 50% высоты для каждой строки
             table.RowStyles.Add(new RowStyle(SizeType.Percent, 80F));
 
             this.Controls.Add(table);
 
-
+            textBox1.Dock = DockStyle.Fill;
+            button3.Dock = DockStyle.Fill;
             button2.Dock = DockStyle.Fill;
             button1.Dock = DockStyle.Fill; // заполняет ячейку
             chart1.Dock = DockStyle.Fill;
@@ -184,6 +190,7 @@ namespace test
             if (button2.Text == "выборка")
             {
                 chart3.Visible = true;
+                textBox1.Visible = false;
                 chart2.Visible = false;
                 chart1.Visible = false;
                 button1.Visible = false;
@@ -193,6 +200,7 @@ namespace test
             else
             {
                 button2.Text = "выборка";
+                textBox1.Visible = true;
                 chart3.Visible =false;
                 chart2.Visible = false;
                 chart1.Visible = true;

@@ -167,9 +167,9 @@
             this.button3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.button3.Location = new System.Drawing.Point(1382, 54);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(73, 26);
+            this.button3.Size = new System.Drawing.Size(55, 26);
             this.button3.TabIndex = 13;
-            this.button3.Text = "выборка";
+            this.button3.Text = "сброс";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
