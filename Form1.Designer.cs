@@ -32,12 +32,15 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -47,6 +50,10 @@
             this.chart3 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart3)).BeginInit();
@@ -77,6 +84,9 @@
             this.chart1.Size = new System.Drawing.Size(1250, 537);
             this.chart1.TabIndex = 5;
             this.chart1.Text = "chart1";
+            title1.Name = "Title1";
+            title1.Text = "График напряжения";
+            this.chart1.Titles.Add(title1);
             // 
             // timer1
             // 
@@ -91,7 +101,7 @@
             this.chart2.ChartAreas.Add(chartArea2);
             legend2.Name = "Legend1";
             this.chart2.Legends.Add(legend2);
-            this.chart2.Location = new System.Drawing.Point(0, 1);
+            this.chart2.Location = new System.Drawing.Point(12, 1);
             this.chart2.Name = "chart2";
             series2.BorderWidth = 3;
             series2.ChartArea = "ChartArea1";
@@ -103,6 +113,9 @@
             this.chart2.Size = new System.Drawing.Size(1250, 537);
             this.chart2.TabIndex = 8;
             this.chart2.Text = "chart2";
+            title2.Name = "Title1";
+            title2.Text = "Тренд";
+            this.chart2.Titles.Add(title2);
             this.chart2.Visible = false;
             // 
             // button1
@@ -110,7 +123,7 @@
             this.button1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.button1.AutoSize = true;
             this.button1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button1.Location = new System.Drawing.Point(1430, 77);
+            this.button1.Location = new System.Drawing.Point(1430, 67);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(183, 26);
             this.button1.TabIndex = 9;
@@ -133,7 +146,7 @@
             this.chart3.ChartAreas.Add(chartArea3);
             legend3.Name = "Legend1";
             this.chart3.Legends.Add(legend3);
-            this.chart3.Location = new System.Drawing.Point(0, 1);
+            this.chart3.Location = new System.Drawing.Point(12, 1);
             this.chart3.Name = "chart3";
             series3.BorderWidth = 3;
             series3.ChartArea = "ChartArea1";
@@ -145,6 +158,9 @@
             this.chart3.Size = new System.Drawing.Size(1250, 537);
             this.chart3.TabIndex = 11;
             this.chart3.Text = "chart3";
+            title3.Name = "Title1";
+            title3.Text = "Выборка";
+            this.chart3.Titles.Add(title3);
             this.chart3.Visible = false;
             // 
             // button2
@@ -152,7 +168,7 @@
             this.button2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.button2.AutoSize = true;
             this.button2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button2.Location = new System.Drawing.Point(1382, 77);
+            this.button2.Location = new System.Drawing.Point(1382, 67);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(73, 26);
             this.button2.TabIndex = 12;
@@ -165,13 +181,40 @@
             this.button3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.button3.AutoSize = true;
             this.button3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button3.Location = new System.Drawing.Point(1382, 54);
+            this.button3.Location = new System.Drawing.Point(1382, 44);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(55, 26);
             this.button3.TabIndex = 13;
             this.button3.Text = "сброс";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // timer2
+            // 
+            this.timer2.Interval = 1000;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(1351, 193);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 22);
+            this.textBox2.TabIndex = 14;
+            this.textBox2.Visible = false;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(1339, 276);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(191, 22);
+            this.textBox3.TabIndex = 15;
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(1339, 305);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(191, 22);
+            this.textBox4.TabIndex = 16;
             // 
             // Form1
             // 
@@ -181,6 +224,9 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1581, 539);
+            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.chart3);
@@ -209,6 +255,10 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart chart3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBox4;
     }
 }
 
