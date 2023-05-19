@@ -372,26 +372,38 @@ namespace test
             firstTimeDate = firstTimeDate.AddHours(3);
             label3.Text = firstTimeDate.ToString();
 
-            NpgsqlCommand sqlallval = new NpgsqlCommand("SELECT time, val FROM value_table WHERE time >= @start_date AND time <= @end_date", conn);
 
+
+            NpgsqlCommand sqlallval = new NpgsqlCommand("SELECT time, val FROM value_table WHERE time >= @start_date AND time <= @end_date", conn);
             sqlallval.Parameters.AddWithValue("start_date", firstTimeDate);
             sqlallval.Parameters.AddWithValue("end_date", lastTimeDate);
-
-            string query = "SELECT val, time FROM value_table WHERE time::date = @selectedDate ORDER BY time DESC LIMIT @limit";
-            using (NpgsqlCommand command = new NpgsqlCommand(query, conn))
+            using (NpgsqlDataReader reader = sqlallval.ExecuteReader())
             {
-                command.Parameters.AddWithValue("selectedDate", dateTimePickerFirstDate.Value.Date);
-                command.Parameters.AddWithValue("limit", 500);
 
-                using (NpgsqlDataReader reader = command.ExecuteReader())
+
+
+                while (reader.Read())
                 {
-                    while (reader.Read())
-                    {
-                        double value = reader.GetDouble(0);
-                        DateTime timestamp = reader.GetDateTime(1).ToLocalTime();
-                        chart3.Series[0].Points.AddXY(timestamp, value);
-                    }
+                    // Чтение значения времени и значения из базы данных
+                    DateTime timestamp = reader.GetDateTime(0).ToLocalTime();
+                    double value = reader.GetDouble(1);
+
+                    chart3.Series[0].Points.AddXY(timestamp, value);
                 }
+                /* using (NpgsqlCommand sqlallval = new NpgsqlCommand(query, conn))
+                 {
+                     sqlallval.Parameters.AddWithValue("start_date", firstTimeDate);
+                     sqlallval.Parameters.AddWithValue("end_date", lastTimeDate);
+
+                     using (NpgsqlDataReader reader = sqlallval.ExecuteReader())
+                     {
+                         while (reader.Read())
+                         {
+                             DateTime timestamp = reader.GetDateTime(0).ToLocalTime();
+                             double value = reader.GetDouble(0);
+                             chart3.Series[0].Points.AddXY(timestamp.ToOADate(), value);
+                         }
+                     }*/
 
 
 
