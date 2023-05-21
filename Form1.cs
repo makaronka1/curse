@@ -84,7 +84,7 @@ namespace test
             chart1.ChartAreas[0].AxisY.Minimum = -5; // Минимальное значение по оси Y
 
             /*chart1.ChartAreas[0].AxisY.MinorGrid.Enabled = true;*/
-
+            chart1.Series[0].ToolTip = "X = #VALX{dd/MM/yyyy HH:mm:ss}, Y = #VALY";
             chart1.ChartAreas[0].AxisX.LabelStyle.Format = "H:mm:ss"; // Формат оси X
             chart1.Series[0].XValueType = ChartValueType.DateTime;
 
@@ -93,7 +93,8 @@ namespace test
 
             chart1.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Seconds; // Интервал отображения значений
             chart1.ChartAreas[0].AxisX.Interval = 5;
-                                                    // 
+
+            chart2.Series[0].ToolTip = "X = #VALX{dd/MM/yyyy HH:mm:ss}, Y = #VALY"; 
             chart2.ChartAreas[0].AxisY.Maximum = 45; // Максимальные значение по оси Y
             chart2.ChartAreas[0].AxisY.Minimum = -5; // Минимальное значение по оси Y
 
@@ -116,7 +117,7 @@ namespace test
 
             chart3.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Minutes; // Интервал отображения значений
             chart3.ChartAreas[0].AxisX.Interval = 10; // Значение интервала
-            chart3.Series[0].ToolTip = "X = #VALX{HH:mm:ss}, Y = #VALY";
+            chart3.Series[0].ToolTip = "X = #VALX{dd/MM/yyyy HH:mm:ss}, Y = #VALY";
 
 
 
@@ -353,35 +354,47 @@ namespace test
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-
-            chart2.Visible = false;
-            chart1.Visible = false;
-
-
+            if(timer2.Enabled == true)
+            {
+                timer2.Stop();
+            }
+            else
+            {
+                timer2.Start();
+            }
+            chart3.Series[0].Points.Clear();
+/*            chart2.Visible = false;
+            chart1.Visible = false;*/
+            string secondDateError = "Выбранная дата больше, чем текущая" ;
             
 
-            NpgsqlCommand sqllastTimeDate = new NpgsqlCommand("SELECT time FROM value_table WHERE date_trunc('day', time) = @dateTimePickerSecondDate ORDER BY time DESC LIMIT 1", conn);
-            sqllastTimeDate.Parameters.AddWithValue("dateTimePickerSecondDate", dateTimePickerSecondDate.Value.Date);
-            DateTime lastTimeDate = (DateTime)sqllastTimeDate.ExecuteScalar();
-            lastTimeDate = lastTimeDate.AddHours(3);
-            label4.Text = lastTimeDate.ToString();
+            try
+            {
+                NpgsqlCommand sqllastTimeDate = new NpgsqlCommand("SELECT time FROM value_table WHERE time >= date_trunc('day', @dateTimePickerSecondDate) ORDER BY time DESC LIMIT 1", conn);
+                sqllastTimeDate.Parameters.AddWithValue("dateTimePickerSecondDate", dateTimePickerSecondDate.Value.Date);
+                DateTime lastTimeDate = (DateTime)sqllastTimeDate.ExecuteScalar();
+                lastTimeDate = lastTimeDate.AddHours(3);
+                label4.Text = lastTimeDate.ToString();
+            }
+            catch 
+            {
+                ErrorForm errorForm = new ErrorForm(secondDateError);
+                errorForm.ShowDialog();
+            }
 
-            NpgsqlCommand sqlfirstTimeDate = new NpgsqlCommand("SELECT time FROM value_table WHERE date_trunc('day', time) = @dateTimePickerFirstDate ORDER BY time ASC LIMIT 1", conn);
+
+            NpgsqlCommand sqlfirstTimeDate = new NpgsqlCommand("SELECT time FROM value_table WHERE time <= date_trunc('day', @dateTimePickerFirstDate) + INTERVAL '1 day' - INTERVAL '1 second' ORDER BY time ASC LIMIT 1", conn);
             sqlfirstTimeDate.Parameters.AddWithValue("dateTimePickerFirstDate", dateTimePickerFirstDate.Value.Date);
             DateTime firstTimeDate = (DateTime)sqlfirstTimeDate.ExecuteScalar();
             firstTimeDate = firstTimeDate.AddHours(3);
             label3.Text = firstTimeDate.ToString();
 
+            NpgsqlCommand sqlallval = new NpgsqlCommand("SELECT time, val FROM value_table WHERE time BETWEEN date_trunc('day', @start_date) AND date_trunc('day', @end_date) + INTERVAL '1 day' - INTERVAL '1 second' ORDER BY time;", conn);
+            sqlallval.Parameters.AddWithValue("start_date", dateTimePickerFirstDate.Value.Date);
+            sqlallval.Parameters.AddWithValue("end_date", dateTimePickerSecondDate.Value.Date);
 
-
-            NpgsqlCommand sqlallval = new NpgsqlCommand("SELECT time, val FROM value_table WHERE time >= @start_date AND time <= @end_date", conn);
-            sqlallval.Parameters.AddWithValue("start_date", firstTimeDate);
-            sqlallval.Parameters.AddWithValue("end_date", lastTimeDate);
             using (NpgsqlDataReader reader = sqlallval.ExecuteReader())
             {
-
-
-
                 while (reader.Read())
                 {
                     // Чтение значения времени и значения из базы данных
