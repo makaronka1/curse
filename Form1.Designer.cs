@@ -133,7 +133,7 @@
             this.change.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.change.AutoSize = true;
             this.change.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.change.Location = new System.Drawing.Point(1430, 72);
+            this.change.Location = new System.Drawing.Point(1430, 62);
             this.change.Name = "change";
             this.change.Size = new System.Drawing.Size(183, 26);
             this.change.TabIndex = 9;
@@ -172,7 +172,7 @@
             this.viborka.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.viborka.AutoSize = true;
             this.viborka.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.viborka.Location = new System.Drawing.Point(1382, 72);
+            this.viborka.Location = new System.Drawing.Point(1382, 62);
             this.viborka.Name = "viborka";
             this.viborka.Size = new System.Drawing.Size(73, 26);
             this.viborka.TabIndex = 12;
@@ -185,7 +185,7 @@
             this.reset.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.reset.AutoSize = true;
             this.reset.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.reset.Location = new System.Drawing.Point(1382, 49);
+            this.reset.Location = new System.Drawing.Point(1382, 39);
             this.reset.Name = "reset";
             this.reset.Size = new System.Drawing.Size(55, 26);
             this.reset.TabIndex = 13;
