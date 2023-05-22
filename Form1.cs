@@ -145,7 +145,7 @@ namespace test
         private void Form1_Load(object sender, EventArgs e)
         {
             timer1.Enabled = true; timer2.Enabled = true;
-            // Включение таймера
+            // Включение таймераa
             graf_trand();
 
             layout();
